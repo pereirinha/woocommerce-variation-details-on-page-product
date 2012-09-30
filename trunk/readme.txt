@@ -44,6 +44,7 @@ Please, check the defined attributes. Please notice that, Woocommerce add the pr
 
 = 1.1 =
 Fix a bug to remove empty classes product_details created after each change.
+Fix the following error: Parse error: syntax error, unexpected '[' in ../woocommerce-variation-details-on-page-product/wc-attributes-on-page.php on line 31
 
 = 1.0 =
 Just unleash the first version.
