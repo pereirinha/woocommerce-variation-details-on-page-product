@@ -3,7 +3,7 @@ Contributors: pereirinha
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 3.4.1 and WooCommerce 1.6.3
 Tested up to: 3.4.1
-Stable tag: 2.0
+Stable tag: 1.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -27,25 +27,20 @@ It creates a new class called product_details inside product_meta, so you can ea
 
 1. Upload the entire 'woocommerce-variation-details-on-page_product' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to Variation settings tab, within WooCommerce settings and define which attributes you want to handle
+3. Edit 'wc-attributs-on-page.php' find the '$attributs_keys' array and insert the attributes that you want to handle
 
 == Frequently Asked Questions ==
 
-= After upgrading to version 2.0 I'm not able to show my details =
-Due to internal changes, all of the previous definitions of attribute keys were lost. You should go to Variation settings' tab, within WooCommerce settings and define again which attributes you want to handle.
+= I've inserted my attributes but pages doesn't show any details? =
+Please, check the defined attributes. Please notice that, Woocommerce add the prefix 'pa_' before the slug name.
 
 == Screenshots ==
 
-1. Bi-dimensional metric system details. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-1.jpg)
+1. Bidimensional metric system details. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-1.jpg)
 2. Imperial system dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-2.jpg)
 3. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-3.jpg)
-4. The settings' page is where you define which attributes will display variations on page product. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-4.jpg)
 
 == Changelog ==
-
-= 2.0 =
-New Variation settings tab within WooCommerce settings.
-Added the Donation button. Have a wife and a dog to support.
 
 = 1.1 =
 Fix a bug to remove empty classes product_details created after each change.
