@@ -2,9 +2,9 @@
 Contributors: pereirinha
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
-Requires at least: 3.4.1 and WooCommerce 1.6.6
-Tested up to: 3.5.1 and WooCommerce 
-Stable tag: 2.0.2
+Requires at least: 3.4.1 and WooCommerce 1.6.3
+Tested up to: 3.4.1
+Stable tag: 2.0.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -47,9 +47,6 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 5. Quick step-by-step tutorial. [vimeo https://vimeo.com/51533811]
 
 == Changelog ==
-
-= 2.0.2 =
-* Fix a issue that would result on PHP Warning on implode() function in cases where products have any attributes.
 
 = 2.0.1 =
 * Fix a bug that could result on jQuery unexpected results.
