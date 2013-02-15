@@ -4,15 +4,15 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 3.4.1 and WooCommerce 1.6.6
 Tested up to: 3.5.1 and WooCommerce 
-Stable tag: 2.0.3
+Stable tag: 2.0.2
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
-Displays physical size and/or weight within meta details of product with variations.
+Displays physical size and weight within meta details of product with variations.
 
 == Description ==
 
-With this plugin you can display size and/or weight details of your variable products based defined attributes of WooCommerce.
+With this plugin you can display size and weight details of your variable products based defined attributes of WooCommerce.
 
 It creates a new class called product_details inside product_meta, so you can easily custom on CSS.
 
@@ -47,9 +47,6 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 5. Quick step-by-step tutorial. [vimeo https://vimeo.com/51533811]
 
 == Changelog ==
-
-= 2.0.3 =
-* Support products that only have variations on weight.
 
 = 2.0.2 =
 * Fix a issue that would result on PHP Warning on implode() function in cases where products have any attributes.

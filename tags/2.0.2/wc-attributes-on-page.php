@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Variation Details on Page Product
 Plugin URI: https://github.com/pereirinha/woocommerce-variation-details-on-page-product
 Description: Display physical size and weight of product within product meta details.
-Version: 2.0.3
+Version: 2.0.2
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
 */
@@ -54,7 +54,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				$attributs_units[]		= get_option('woocommerce_weight_unit'); // Default weight unit
 				$attributs_keys			= get_option($this->option_name);
 				foreach ( $attributs_keys as &$value ) $value = 'pa_'.$value;
-				$attributs_dimValues	= array ('_length', '_width', '_height', '_weight');
+				$attributs_dimValues	= array ('_length', '_width', '_height');
 				$args = array( 
 					'post_parent'		=> $post->ID,
 					'order'				=> 'ASC',
@@ -72,7 +72,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 								$attributs_return[$term][] = implode ( get_post_meta ( $key, $term ) );
 							}
 						}
-						//$attributs_weightValues[] = implode ( get_post_meta ( $key, '_weight' ) );
+						$attributs_weightValues[] = implode ( get_post_meta ( $key, '_weight' ) );
 					}
 				} else {
 					return '';
@@ -86,9 +86,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				foreach($attributs_return AS $key => $val){
 					$return[] = $key . ' = new Array("'. implode("\", \"", $val) . '")';
 				}
-				//$return[] = 'weightValues = new Array ("' . implode( "\", \"" , $attributs_weightValues) . '")';
+				$return[] = 'weightValues = new Array ("' . implode( "\", \"" , $attributs_weightValues) . '")';
 				
 				$return = implode( ", ", $return );
+			
 				echo "<script type=\"text/javascript\">$return;</script>";
 			}
 			

@@ -2,20 +2,22 @@ jQuery(document).ready(function($) {
     if(typeof keys != 'undefined'){
         $('#'+eval(keys)).change(function () {
             var str = "";
+            var weight = "";
             $('#'+eval(keys) + " option:selected").each(function () {
-                count = 0;
                 for (value in dimensionalValues) {
-                    if (searchStringInArray(eval(keys[0]), $(this).text()) >= 0 && eval(dimensionalValues[value])[searchStringInArray(eval(keys[0]), $(this).text())] > 0 && value != 3){
+                    if (searchStringInArray(eval(keys[0]), $(this).text()) >= 0 && eval(dimensionalValues[value])[searchStringInArray(eval(keys[0]), $(this).text())] > 0 ){
                         str += eval(dimensionalValues[value])[searchStringInArray(eval(keys[0]), $(this).text())] + ' x ';
+                        weight = eval(weightValues)[searchStringInArray(eval(keys[0]), $(this).text())];
                     }
-                    if (count == 2) {
-                        str = str.substring(0, str.length-3);
-                        if (str.length > 0) str += dimensionalUnit + '<br>';
-                    }
-                    if (searchStringInArray(eval(keys[0]), $(this).text()) >= 0 && eval(dimensionalValues[value])[searchStringInArray(eval(keys[0]), $(this).text())] > 0 && value == 3){
-                        str += eval(dimensionalValues[value])[searchStringInArray(eval(keys[0]), $(this).text())] + weightUnit;
-                    }
-                    count ++;
+                }
+                
+                if (str.length > 0) {
+                    str = str.substring(0, str.length-3);
+                    str += dimensionalUnit;
+                }
+                
+                if (weight.length > 0) {
+                    str += '<br>'+weight+weightUnit;
                 }
             });
     
