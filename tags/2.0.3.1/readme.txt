@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 3.4.1 and WooCommerce 1.6.3
 Tested up to: 3.5.1
-Stable tag: 2.0.3.2
+Stable tag: 2.0.3.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -20,7 +20,7 @@ It creates a new class called product_details inside product_meta, so you can ea
 * If your product is set to be variable and you have also set size and/or weight on each your predefined attributes, this plugin will show those details within other meta details.
 
 = Feedback =
-* Will try to help on issues pointed on http://wordpress.org/support/plugin/woocommerce-variation-details-on-page-product and https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues
+* Will try to help on issues pointed on  https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues
 * Fell free to suggest or contribute
 * Can find me on twitter @porreirinha
 
@@ -46,9 +46,6 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 1. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-4.jpg)
 
 == Changelog ==
-
-= 2.0.3.2 =
-* Minor error fix when Debug Mode is on.
 
 = 2.0.3.1 =
 * Minor code cleanup.
@@ -77,11 +74,11 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 
 This is a step-by-step that might help you on your setup.
 
-1. Go to Products > Attributes page and define a new Attribute, size for instance, with several Terms as you like: small, medium, large;
+1. Go to Products > Attributes page and define a new Attribute, size for instance, with several Terms as you like â€” small, medium, large;
 1. Create a product on WooCommerce;
 1. Define it as a Variable Product on Product Data tab;
 1. On Attributes tab within Product Data tab add the Attribute created on step 1, in this case Size;
-1. On the new form, where asked for values, click on 'Select all'. It should map all terms: small, medium, large; and check Visible on the product page and Used for variations;
+1. On the new form, where asked for values, click on "Select all". It should map all terms â€” small, medium, large â€”, and check Visible on the product page and Used for variations;
 1. Save a draft, in order to Variations become available;
 1. On Variations tab you can Link all variations, or, add one by one your Variation Size, selecting one of default selections and fill the desired fields. Be sure to setup dimensions;
 1. Add information for the remaining selections;
@@ -90,7 +87,7 @@ This is a step-by-step that might help you on your setup.
 1. Select one off your sizes and notice that dimension information will be shown bellow your add to cart button;
 1. Select any other size and notice that dimension information will automatically will change.
 
-Quick step-by-step video tutorial.
+Quick step-by-step tutorial.
 [vimeo http://vimeo.com/51533811]
 
 == Plugin Links ==

@@ -10,12 +10,10 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 		public $plugin_id;
 		public $tab_name;
 		public $option_name;
-		public $id;
 		
 		public function __construct() {
 			global $mp_wc_vdopp;
 			$this->plugin_id		= 'mp_wc_vdopp';
-			$this->id 				= $this->plugin_id;
 			$this->tab_name			= &$this->plugin_id;
 			$this->option_name		= $mp_wc_vdopp->option_name;
 			$this->init_form_fields();
