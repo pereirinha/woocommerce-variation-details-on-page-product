@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 3.4.1 and WooCommerce 1.6.3
 Tested up to: 3.5.1
-Stable tag: 3.0.1
+Stable tag: 3.0.0
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -46,9 +46,6 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 1. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-4.jpg)
 
 == Changelog ==
-
-= 3.0.1 =
-* Fix a syntax error, unexpected T_PAAMAYIM_NEKUDOTAYIM
 
 = 3.0.0 =
 * Support Custom Attributes. Hurray.

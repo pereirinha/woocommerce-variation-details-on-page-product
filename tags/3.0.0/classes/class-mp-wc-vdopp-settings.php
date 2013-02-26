@@ -16,7 +16,7 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 		
 		public function __construct() {
 			global $mp_wc_vdopp;
-			$this->plugin_id		= $mp_wc_vdopp->plugin_prefix;
+			$this->plugin_id		= $mp_wc_vdopp::$plugin_prefix;
 			$this->tab_name			= &$this->plugin_id;
 			$this->options_name		= array($this->plugin_id.'_data_hook', $this->plugin_id.'_dom_selector', $this->plugin_id.'_data_selector');
 			add_action( 'admin_init', array( $this, 'verify_first_use' ) );
