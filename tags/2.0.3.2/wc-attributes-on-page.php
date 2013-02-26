@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Variation Details on Page Product
 Plugin URI: https://github.com/pereirinha/woocommerce-variation-details-on-page-product
 Description: Display physical size and weight of product within product meta details.
-Version: 3.0.0
+Version: 2.0.3.2
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
 */
@@ -14,28 +14,28 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	
 	if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product' ) ) {
 		
-		class MP_WC_Variation_Details_On_Page_Product {
+		class MP_WC_Variation_Details_On_Page_Product{
 			
 			// Definition of version
-			const VERSION = "3.0.0";
+			const VERSION = "2.0.3.2";
 			const VERSION_OPTION_NAME = "mp_wc_vdopp_version";
 			
 			public static $plugin_prefix;
 			public $settings;
-			public $sibling;
+			public $option_name;
 			
 			public function __construct() {
-				self::$plugin_prefix	= 'mp_wc_vdopp';
-				$this->old_option_name	= 'mp_wc_vdopp_keys';
+				self::$plugin_prefix	= 'mp_wc_';
+				$this->option_name		= 'mp_wc_vdopp_keys';
 			}
 			
 			public function load() {
 				add_action( 'init', array( $this, 'load_hooks' ) );
-				add_filter( 'woocommerce_before_add_to_cart_form', array( &$this,'mp_wc_variation_details_on_page_product' ), 10);
-
+				add_action( 'woocommerce_after_add_to_cart_button', array( &$this,'mp_wc_variation_details_on_page_product' ), 10);
+				
 				// Load the JS
-				add_filter( 'wp_enqueue_scripts', array ( &$this, 'mp_wc_variation_details_on_page_product_scripts' ), 15);
-
+				add_action( 'wp_enqueue_scripts', array ( &$this, 'mp_wc_variation_details_on_page_product_scripts' ), 5);
+				
 				// Installation
 				if ( is_admin() && ! defined( 'DOING_AJAX' ) ) $this->install();
 			}
@@ -51,46 +51,57 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			}
 			
 			public function mp_wc_variation_details_on_page_product() {
-				
-				if ( !is_product() ) return '';
-				global $product;
-				$att_dim_unit	= get_option('woocommerce_dimension_unit'); // Default dimension unit
-				$att_wei_unit	= get_option('woocommerce_weight_unit'); // Default weight unit
-				$att_data_hook	= get_option('mp_wc_vdopp_data_hook'); // Hook data
-				$att_dom_sel	= get_option('mp_wc_vdopp_dom_selector'); // DOM Selector
-				$att_data_sel	= get_option('mp_wc_vdopp_data_selector'); // Data Selector
-
-
-				//$product	= new WC_Product($post->ID);
-				$children	= $product->get_children( $args = '', $output = OBJECT );
-
-				foreach ($children as $value) {
-					$this->sibling[] = new WC_Product_Variation($value);
-				}
-
-				$siblings = json_encode($this->sibling);
-				$params = array(
-					'siblings'		=> $siblings,
-					'att_dim_unit'	=> $att_dim_unit,
-					'att_wei_unit'	=> $att_wei_unit,
-					'att_data_hook'	=> $att_data_hook,
-					'att_dom_sel'	=> $att_dom_sel,
-					'att_data_sel'	=> $att_data_sel
+				global $post;
+				$attributs_units[]		= get_option('woocommerce_dimension_unit'); // Default dimension unit
+				$attributs_units[]		= get_option('woocommerce_weight_unit'); // Default weight unit
+				$attributs_keys			= get_option($this->option_name);
+				foreach ( $attributs_keys as &$value ) $value = 'pa_'.$value;
+				$attributs_dimValues	= array ('_length', '_width', '_height', '_weight');
+				$args = array( 
+					'post_parent'		=> $post->ID,
+					'order'				=> 'ASC',
+					'post_type'			=> 'product_variation'
 				);
+				$children =& get_children( $args );
+				$attributs_return = array();
 				
-				// enqueue the script
-				wp_enqueue_script( 'mp_wc_variation_details' );
-				wp_localize_script( 'mp_wc_variation_details', 'Variations', $params );
+				if ( !empty ( $children ) ) {
+					foreach ( $children AS $key => $val ) {
+						foreach ( $attributs_keys AS $keys ) {
+							$attrib = get_post_meta ( $key, 'attribute_'.$keys );
+							$attributs_return[$keys][] = get_term_by ( 'slug', $attrib[0],$keys )->name;
+							foreach($attributs_dimValues AS $term){
+								$attributs_return[$term][] = implode ( get_post_meta ( $key, $term ) );
+							}
+						}
+					}
+				} else {
+					return '';
+				}
+				$return = array();
+				$return[] = 'keys = new Array("'. implode( "\", \"" , $attributs_keys) .'")';
+				$return[] = 'dimensionalUnit = "' . $attributs_units [0] . '"';
+				$return[] = 'weightUnit = "'. $attributs_units[1] .'"';
+				$return[] = 'dimensionalValues = new Array ("' . implode( "\", \"" , $attributs_dimValues) . '")';
+				foreach($attributs_return AS $key => $val){
+					$return[] = $key . ' = new Array("'. implode("\", \"", $val) . '")';
+				}
+				
+				$return = implode( ", ", $return );
+				echo "<script type=\"text/javascript\">$return;</script>";
 			}
 			
 			public function mp_wc_variation_details_on_page_product_scripts() {
-				
-				$js_url  = plugins_url ( 'js/wc-attributes-on-page.min.js', __FILE__ ); 
-				$js_file = WP_PLUGIN_DIR . '/woocommerce-variation-details-on-page-product/js/wc-attributes-on-page.min.js';
+			 
+				// Respects SSL, Style.css is relative to the current file
+				$js_url  = plugins_url ( 'js/wc-attributes-on-page.js', __FILE__ ); 
+				$js_file = WP_PLUGIN_DIR . '/woocommerce-variation-details-on-page-product/js/wc-attributes-on-page.js';
 				
 				if ( file_exists( $js_file ) ) :
 					// register your script location, dependencies and version
 					wp_register_script( 'mp_wc_variation_details', $js_url, array ( 'jquery' ) );
+					// enqueue the script
+					wp_enqueue_script( 'mp_wc_variation_details' );
 				endif;
 			}
 			
@@ -115,9 +126,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			
 			// Run when plugin version number changes
 			private function upgrade( $installed_version ) {
-				if( get_option( $this->old_option_name ) ) {
-					delete_option( $this->old_option_name );
-				}
+				// upgrade code goes here
 			}
 		}
 	}

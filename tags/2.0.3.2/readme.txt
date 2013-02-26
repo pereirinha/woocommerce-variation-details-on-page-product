@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 3.4.1 and WooCommerce 1.6.3
 Tested up to: 3.5.1
-Stable tag: 3.0.0
+Stable tag: 2.0.3.2
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -47,17 +47,6 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 
 == Changelog ==
 
-= 3.0.0 =
-* Support Custom Attributes. Hurray.
-* Sucessfully tested on nightly WooCommerce 2.0.0 RC2.
-* You'll not be required to define which attributes to handle, as this plugin will track them for you. As a consequence, old data will be removed from your database.
-* You can choose which DOM object will be used to hook product attributes.
-* You can choose which DOM object will be used to trigger action. This is a cool feature as I've faced themes that redefine DOM elements.
-* You can choose id/class for theming.
-* These settings are defined out of the box so most users don't need to bother defining them.
-* Minified version of javascript.
-* Javascript improvement.
-
 = 2.0.3.2 =
 * Minor error fix when Debug Mode is on.
 
@@ -88,8 +77,21 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 
 This is a step-by-step that might help you on your setup.
 
-1. Activate WooCommerce Variation Details on Page Product plugin and ta-da, that's it. It should work in most cases.
-1. Use a front-end development tool — like firebug — to track selectors on your DOM. Map them on WooCommerce > Settings > Variations according your needs.
+1. Go to Products > Attributes page and define a new Attribute, size for instance, with several Terms as you like: small, medium, large;
+1. Create a product on WooCommerce;
+1. Define it as a Variable Product on Product Data tab;
+1. On Attributes tab within Product Data tab add the Attribute created on step 1, in this case Size;
+1. On the new form, where asked for values, click on 'Select all'. It should map all terms: small, medium, large; and check Visible on the product page and Used for variations;
+1. Save a draft, in order to Variations become available;
+1. On Variations tab you can Link all variations, or, add one by one your Variation Size, selecting one of default selections and fill the desired fields. Be sure to setup dimensions;
+1. Add information for the remaining selections;
+1. Publish your product;
+1. Find the product page on your shop;
+1. Select one off your sizes and notice that dimension information will be shown bellow your add to cart button;
+1. Select any other size and notice that dimension information will automatically will change.
+
+Quick step-by-step video tutorial.
+[vimeo http://vimeo.com/51533811]
 
 == Plugin Links ==
 * [Developers: reports bugs & issues](https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues)
