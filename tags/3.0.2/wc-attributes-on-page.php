@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Variation Details on Page Product
 Plugin URI: https://github.com/pereirinha/woocommerce-variation-details-on-page-product
 Description: Display physical size and weight of product within product meta details.
-Version: 3.1
+Version: 3.0.2
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
 */
@@ -17,7 +17,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		class MP_WC_Variation_Details_On_Page_Product {
 			
 			// Definition of version
-			const VERSION = "3.1";
+			const VERSION = "3.0.2";
 			const VERSION_OPTION_NAME = "mp_wc_vdopp_version";
 			
 			public $plugin_prefix;
@@ -42,27 +42,26 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			
 			public function includes() {
 				include_once( 'classes/class-mp-wc-vdopp-settings.php' );
-				include_once( 'classes/class-mp-wc-vdopp-shortcodes.php' );
 			}
 			
 			public function load_hooks() {
 				$this->includes();
 				$this->settings = new MP_WC_Variation_Details_On_Page_Product_Settings();
 				$this->settings->load();
-				$this->shortcodes = new MP_WC_Variation_Details_On_Page_Product_Shortcodes();
-				$this->shortcodes->load();
 			}
 			
 			public function mp_wc_variation_details_on_page_product() {
 				
 				if ( !is_product() ) return '';
 				global $product;
-				$att_dim_unit 	= get_option('woocommerce_dimension_unit'); // Default dimension unit
-				$att_wei_unit 	= get_option('woocommerce_weight_unit'); // Default weight unit
+				$att_dim_unit	= get_option('woocommerce_dimension_unit'); // Default dimension unit
+				$att_wei_unit	= get_option('woocommerce_weight_unit'); // Default weight unit
 				$att_data_hook	= get_option('mp_wc_vdopp_data_hook'); // Hook data
-				$att_dom_sel  	= get_option('mp_wc_vdopp_dom_selector'); // DOM Selector
-				$att_data_sel 	= get_option('mp_wc_vdopp_data_selector'); // Data Selector
+				$att_dom_sel	= get_option('mp_wc_vdopp_dom_selector'); // DOM Selector
+				$att_data_sel	= get_option('mp_wc_vdopp_data_selector'); // Data Selector
 
+
+				//$product	= new WC_Product($post->ID);
 				$children	= $product->get_children( $args = '', $output = OBJECT );
 
 				foreach ($children as $value) {
@@ -71,7 +70,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 				$siblings = json_encode($this->sibling);
 				$params = array(
-					'siblings'     	=> $siblings,
+					'siblings'     		=> $siblings,
 					'att_dim_unit' 	=> $att_dim_unit,
 					'att_wei_unit' 	=> $att_wei_unit,
 					'att_data_hook'	=> $att_data_hook,
@@ -86,8 +85,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			
 			public function mp_wc_variation_details_on_page_product_scripts() {
 				
-				$js_url  = plugins_url ( 'js/wc-attributes-on-page.js', __FILE__ ); 
-				$js_file = WP_PLUGIN_DIR . '/woocommerce-variation-details-on-page-product/js/wc-attributes-on-page.js';
+				$js_url  = plugins_url ( 'js/wc-attributes-on-page.min.js', __FILE__ ); 
+				$js_file = WP_PLUGIN_DIR . '/woocommerce-variation-details-on-page-product/js/wc-attributes-on-page.min.js';
 				
 				if ( file_exists( $js_file ) ) :
 					// register your script location, dependencies and version

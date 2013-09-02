@@ -4,10 +4,6 @@ jQuery(document).ready(function($) {
 		var siblings  		= Variations.siblings.replace(/&quot;/g, '"');
 		var variations		= jQuery.parseJSON(siblings);
 		var attributes		= new Array();
-		
-		if ( $('div').hasClass('mp_wc_vdopp_variations') ) {
-			Variations.att_data_hook = '.mp_wc_vdopp_variations';
-		}
 		if (Variations.att_data_sel.charAt(0) == '.') {
 			var type_data_selector = 'class';
 		} else if (Variations.att_data_sel.charAt(0) == '#') {
@@ -15,9 +11,7 @@ jQuery(document).ready(function($) {
 		} else {
 			console.log('Misconfiguration on Data Selector. Please, verify first char.');
 		}
-
 		var data_selector = Variations.att_data_sel.substring(1);
-
 		$(Variations.att_dom_sel).on("change", function(e){
 
 		    if ( ! ($(this).val()) ) return '';
@@ -83,9 +77,10 @@ jQuery(document).ready(function($) {
 	function searchVariation(objects, key_values, attributes){
 		if (typeof(attributes) == 'undefined') attributes = new Array();
 		for (atribute in attributes) {
-			var many_keys = key_values.length;
+			many_keys = key_values.length;
 			for (var i = 0; i < many_keys; i++){
-				if (objects[i]['variation_data'][atribute] != attributes[atribute]) key_values.splice(key_values.indexOf(i), 1);
+				key = i;
+				if (objects[key]['variation_data'][atribute] != attributes[atribute]) key_values.splice(key_values.indexOf(key), 1);
 			}
 			if (key_values.length == 1)	return key_values;
 		};

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 3.4.1 and WooCommerce 1.6.3
 Tested up to: 3.5.1
-Stable tag: 3.1
+Stable tag: 3.0.2
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -17,9 +17,8 @@ With this plugin you can display size and/or weight details of your variable pro
 On default environments, this plugin works out of the box.
 
 = Features =
-* Your can use the shortcode [mp_wc_vdopp_variations] and hook there the visibility of your details.
 * If your product is set to be variable and you have also set size and/or weight on each your predefined attributes, this plugin will show those details within other meta details.
-* Support version WooCommerce 2.0.*
+* Support nightly version WooCommerce 2.0.*.
 * Choose the place holder to show variations.
 * Choose data id/class of displayed data for CSS design.
 * Choose the selector that triggers show data event.
@@ -37,11 +36,11 @@ On default environments, this plugin works out of the box.
 
 == Frequently Asked Questions ==
 
-= Is there any shortcode that I can use to hook the details? =
-Now there is, hurray. Just use the shortcode [mp_wc_vdopp_variations].
-
 = After upgrading to version 2.0 I'm not able to show my details =
 Due to internal changes, all of the previous definitions of attribute keys were lost. You should go to Variation settings' tab, within WooCommerce settings and define again which attributes you want to handle.
+
+= Despite all have been defined, I'm still not able to show my details =
+At this point, vdopp plugin doesn't support "Custom product attributes". You will need to define attributes under Products tab.
 
 == Screenshots ==
 
@@ -52,8 +51,6 @@ Due to internal changes, all of the previous definitions of attribute keys were 
 
 == Changelog ==
 
-= 3.1 =
-* Added shortcode feature. Using the shortcode [mp_wc_vdopp_variations] will replace any settings defined on the hook
 
 = 3.0.2 =
 * Fix a JavaScript bug that could limit the appearance of upper limits of variable attributes, as pointed in http://wordpress.org/support/topic/strange-behavior-2. Thank you Eran for reporting this issue.
@@ -104,7 +101,6 @@ This is a step-by-step that might help you on your setup.
 
 1. Activate WooCommerce Variation Details on Page Product plugin and ta-da, that's it. It should work in most cases.
 1. Use a front-end development tool — like firebug — to track selectors on your DOM. Map them on WooCommerce > Settings > Variations according your needs.
-1. Alternatively, you can use the shortcode [mp_wc_vdopp_variations] to hook variation details.
 
 == Plugin Links ==
 * [Developers: reports bugs & issues](https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues)
