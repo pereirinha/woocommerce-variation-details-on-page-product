@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 3.4.1 and WooCommerce 1.6.3
 Tested up to: 3.5.1
-Stable tag: 3.0.2
+Stable tag: 3.0.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -12,16 +12,12 @@ Displays physical size and/or weight within meta details of product with variati
 
 == Description ==
 
-With this plugin you can display size and/or weight details of your variable products based on defined attributes of your WooCommerce products.
+With this plugin you can display size and/or weight details of your variable products based defined attributes of WooCommerce.
 
-On default environments, this plugin works out of the box.
+It creates a new class called product_details inside product_meta, so you can easily custom on CSS.
 
 = Features =
 * If your product is set to be variable and you have also set size and/or weight on each your predefined attributes, this plugin will show those details within other meta details.
-* Support nightly version WooCommerce 2.0.*.
-* Choose the place holder to show variations.
-* Choose data id/class of displayed data for CSS design.
-* Choose the selector that triggers show data event.
 
 = Feedback =
 * Will try to help on issues pointed on http://wordpress.org/support/plugin/woocommerce-variation-details-on-page-product and https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues
@@ -50,10 +46,6 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 1. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-4.jpg)
 
 == Changelog ==
-
-
-= 3.0.2 =
-* Fix a JavaScript bug that could limit the appearance of upper limits of variable attributes, as pointed in http://wordpress.org/support/topic/strange-behavior-2. Thank you Eran for reporting this issue.
 
 = 3.0.1 =
 * Fix a syntax error, unexpected T_PAAMAYIM_NEKUDOTAYIM

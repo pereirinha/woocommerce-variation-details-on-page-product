@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Variation Details on Page Product
 Plugin URI: https://github.com/pereirinha/woocommerce-variation-details-on-page-product
 Description: Display physical size and weight of product within product meta details.
-Version: 3.0.2
+Version: 3.0.1
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
 */
@@ -17,7 +17,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		class MP_WC_Variation_Details_On_Page_Product {
 			
 			// Definition of version
-			const VERSION = "3.0.2";
+			const VERSION = "3.0.1";
 			const VERSION_OPTION_NAME = "mp_wc_vdopp_version";
 			
 			public $plugin_prefix;
@@ -25,7 +25,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			public $sibling;
 			
 			public function __construct() {
-				$this->plugin_prefix  	= 'mp_wc_vdopp';
+				$this->plugin_prefix	= 'mp_wc_vdopp';
 				$this->old_option_name	= 'mp_wc_vdopp_keys';
 			}
 			
@@ -70,12 +70,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 				$siblings = json_encode($this->sibling);
 				$params = array(
-					'siblings'     		=> $siblings,
-					'att_dim_unit' 	=> $att_dim_unit,
-					'att_wei_unit' 	=> $att_wei_unit,
+					'siblings'		=> $siblings,
+					'att_dim_unit'	=> $att_dim_unit,
+					'att_wei_unit'	=> $att_wei_unit,
 					'att_data_hook'	=> $att_data_hook,
-					'att_dom_sel'  	=> $att_dom_sel,
-					'att_data_sel' 	=> $att_data_sel
+					'att_dom_sel'	=> $att_dom_sel,
+					'att_data_sel'	=> $att_data_sel
 				);
 				
 				// enqueue the script

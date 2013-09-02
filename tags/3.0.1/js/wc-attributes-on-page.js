@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 
 	if(typeof Variations.siblings != "undefined"){
-		var siblings  		= Variations.siblings.replace(/&quot;/g, '"');
+		var siblings		= Variations.siblings.replace(/&quot;/g, '"');
 		var variations		= jQuery.parseJSON(siblings);
 		var attributes		= new Array();
 		if (Variations.att_data_sel.charAt(0) == '.') {
@@ -11,11 +11,8 @@ jQuery(document).ready(function($) {
 		} else {
 			console.log('Misconfiguration on Data Selector. Please, verify first char.');
 		}
-		var data_selector = Variations.att_data_sel.substring(1);
-		$(Variations.att_dom_sel).on("change", function(e){
-
-		    if ( ! ($(this).val()) ) return '';
-			
+		var data_selector	= Variations.att_data_sel.substring(1);
+		$(Variations.att_dom_sel).on("change", function(e){			
 			attributes[$(this).attr('name')] = $(this).val();
 			
 			if (variations != ''){
@@ -65,26 +62,30 @@ jQuery(document).ready(function($) {
 					}
 				}
 			}
-		});
 
-		// Cleanup data
-		$(".reset_variations").on("click", function(e){
-			attributes = new Array();
-			$(Variations.att_data_sel).remove();
+			// Cleanup data
+			$(".reset_variations").on("click", function(e){
+				attributes = new Array();
+				$(Variations.att_data_sel).remove();
+			});
 		});
 	}
 
 	function searchVariation(objects, key_values, attributes){
-		if (typeof(attributes) == 'undefined') attributes = new Array();
-		for (atribute in attributes) {
-			many_keys = key_values.length;
-			for (var i = 0; i < many_keys; i++){
-				key = i;
-				if (objects[key]['variation_data'][atribute] != attributes[atribute]) key_values.splice(key_values.indexOf(key), 1);
+		if (typeof(ignore_attributes) == 'undefined') ignore_attributes = new Array();
+		for (var atribute in attributes) {
+			for (var key in key_values){
+				key = parseInt(key);
+				if (objects[key]['variation_data'][atribute] != attributes[atribute]){
+					key_values.splice(key_values.indexOf(key), 1);
+				}
 			}
-			if (key_values.length == 1)	return key_values;
+			key_values_len = 0;
+			for (var i in key_values) {
+				key_values_len ++;
+			}
+			if (key_values_len == 1) return key_values;
 		};
-
 		searchVariation(objects, key_values, attributes);
 	}
 });
