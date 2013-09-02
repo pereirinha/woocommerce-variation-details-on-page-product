@@ -2,9 +2,9 @@
 Contributors: pereirinha
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
-Requires at least: 3.4.1 and WooCommerce 1.6.3
-Tested up to: 3.5.1
-Stable tag: 3.1
+Requires at least: 3.4.1 and WooCommerce 2.0
+Tested up to: 3.6
+Stable tag: 3.1.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -19,7 +19,7 @@ On default environments, this plugin works out of the box.
 = Features =
 * Your can use the shortcode [mp_wc_vdopp_variations] and hook there the visibility of your details.
 * If your product is set to be variable and you have also set size and/or weight on each your predefined attributes, this plugin will show those details within other meta details.
-* Support version WooCommerce 2.0.*
+* Support version WooCommerce 2.0
 * Choose the place holder to show variations.
 * Choose data id/class of displayed data for CSS design.
 * Choose the selector that triggers show data event.
@@ -51,6 +51,9 @@ Due to internal changes, all of the previous definitions of attribute keys were 
 1. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-4.jpg)
 
 == Changelog ==
+
+= 3.1.1 =
+* Fix sorting L x W x H
 
 = 3.1 =
 * Added shortcode feature. Using the shortcode [mp_wc_vdopp_variations] will replace any settings defined on the hook

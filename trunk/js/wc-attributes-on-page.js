@@ -1,9 +1,9 @@
 jQuery(document).ready(function($) {
 
 	if(typeof Variations.siblings != "undefined"){
-		var siblings  		= Variations.siblings.replace(/&quot;/g, '"');
-		var variations		= jQuery.parseJSON(siblings);
-		var attributes		= new Array();
+		var siblings  		= Variations.siblings.replace(/&quot;/g, '"'),
+			variations		= jQuery.parseJSON(siblings),
+			attributes		= {};
 		
 		if ( $('div').hasClass('mp_wc_vdopp_variations') ) {
 			Variations.att_data_hook = '.mp_wc_vdopp_variations';
@@ -26,8 +26,9 @@ jQuery(document).ready(function($) {
 			
 			if (variations != ''){
 				// Count number of variations
-				var no_variations = 0;
-				var no_attributes = 0;
+				var no_variations = 0,
+					no_attributes = 0;
+
 				for ( variation in variations[0]['variation_data'] ) {
 					if(variations[0]['variation_data'].hasOwnProperty(variation)) {
 						no_variations++;
@@ -50,10 +51,10 @@ jQuery(document).ready(function($) {
 
 					if (variation_details) {
 						var product_details = '';
+						if (variation_details.length) product_details += variation_details.length + 'x';
 						if (variation_details.width) product_details += variation_details.width + 'x';
-						if (variation_details.height) product_details += variation_details.height + 'x';
-						if (variation_details.length) {
-							product_details += variation_details.length;
+						if (variation_details.height) {
+							product_details += variation_details.height;
 						} else {
 							product_details = product_details.slice(0, -1);
 						}
