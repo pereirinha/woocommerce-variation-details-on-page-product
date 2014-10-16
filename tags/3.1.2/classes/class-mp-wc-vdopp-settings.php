@@ -16,9 +16,9 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 		
 		public function __construct() {
 			global $mp_wc_vdopp;
-			$this->plugin_id   	= $mp_wc_vdopp->plugin_prefix;
-			$this->tab_name    	= &$this->plugin_id;
-			$this->options_name	= array($this->plugin_id.'_data_hook', $this->plugin_id.'_dom_selector', $this->plugin_id.'_data_selector');
+			$this->plugin_id   		= $mp_wc_vdopp->plugin_prefix;
+			$this->tab_name    		= &$this->plugin_id;
+			$this->options_name		= array($this->plugin_id.'_data_hook', $this->plugin_id.'_dom_selector', $this->plugin_id.'_data_selector');
 			add_action( 'admin_init', array( $this, 'verify_first_use' ) );
 			add_action( 'admin_init', array( $this, 'init_form_fields' ) );
 		}
@@ -57,42 +57,25 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 		// Initialization of form fields
 		public function init_form_fields() {
 			global $woocommerce;
-			$attribute_taxonomies = wc_get_attribute_taxonomies();
-
-			if ( isset( $_POST[ $this->plugin_id . '_data_hook' ] ) ) {
-				$defaults[ 'data_hook' ] = $_POST[ $this->plugin_id . '_data_hook' ];
-			} else {
-				$defaults[ 'data_hook' ] = get_option( $this->plugin_id.'_data_hook' );
-			}
-			if ( isset( $_POST[ $this->plugin_id . '_dom_selector' ] ) ) {
-				$defaults[ 'dom_selector' ] = $_POST[ $this->plugin_id . '_dom_selector' ];
-			} else {
-				$defaults[ 'dom_selector' ] = get_option( $this->plugin_id.'_dom_selector' );
-			}
-			if ( isset( $_POST[ $this->plugin_id . '_data_selector' ] ) ) {
-				$defaults[ 'data_selector' ] = $_POST[ $this->plugin_id . '_data_selector' ];
-			} else {
-				$defaults[ 'data_selector' ] = get_option( $this->plugin_id.'_data_selector' );
-			}
-
+			$attribute_taxonomies = $woocommerce->get_attribute_taxonomies();
 			$this->form_fields = array(
 				'data_hook' => array(
 					'title'      	=> '<b>Place holder for variation data</b>',
 					'description'	=> 'Choose a CSS class or id where you want to hook variation data. For instance: .variations or .product_meta. Default value: .variations',
 					'type'       	=> 'text',
-					'default'    	=> $defaults[ 'data_hook' ]
+					'default'    	=> get_option( $this->plugin_id.'_data_hook' )
 				),
 				'dom_selector' => array(
 					'title'      	=> '<b>DOM Selector</b>',
 					'description'	=> 'Define the selector that will trigger show data event. Default value: form.cart select',
 					'type'       	=> 'text',
-					'default'    	=> $defaults[ 'dom_selector' ]
+					'default'    	=> get_option( $this->plugin_id.'_dom_selector' )
 				),
 				'data_selector' => array(
 					'title'      	=> '<b>Data Selector</b>',
 					'description'	=> 'Choose the id/class of displayed data. Default value: .product_details',
 					'type'       	=> 'text',
-					'default'    	=> $defaults[ 'data_selector' ]
+					'default'    	=> get_option( $this->plugin_id.'_data_selector' )
 				)
 			);
 		}

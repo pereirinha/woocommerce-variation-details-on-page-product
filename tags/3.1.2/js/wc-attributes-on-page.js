@@ -23,50 +23,6 @@ jQuery(document).ready(function($) {
 		error = true;
 	}
 
-	function toogleData(){
-		var selection = {},
-			result = null;
-		$.each( $selector, function() {
-			var $this = $(this);
-			selection[ $this.attr( 'name' ) ] = $this.val();
-		});
-
-		selectedSelectors = 0;
-		$.each( $selector, function(){
-			if( $(this).val().length > 0 ) {
-				selectedSelectors++;
-			}
-		});
-
-		if ( selectedSelectors === numVariations ){
-			for( var i in variations ) {
-				var variables = variations[i].variables;
-
-				for( var variable in variables ) {
-					var value = variables[variable];
-					if ( value.length > 0 ) {
-						if( selection[variable] === value ) {
-							result = i;
-						} else {
-							result = null;
-							break;
-						}
-					}
-				}
-				if( result ){
-					break;
-				}
-			}
-
-			var product_details = variations[ result ].dimensions + '<br>' + variations[ result ].weight;
-			$(placeholder).remove();
-			$hook.append('<div '+type_data_selector+'="'+data_selector+'">'+product_details+'</div>');
-
-		} else {
-			$(placeholder).remove();
-		}
-	}
-
 	if(typeof variationsRaw.variations !== 'undefined'){
 		var variations = variationsRaw.variations.replace(/&quot;/g, '"'),
 			placeholder = variationsRaw.att_data_sel,
@@ -93,10 +49,48 @@ jQuery(document).ready(function($) {
 			$hook = $( '.mp_wc_vdopp_variations' );
 		}
 
-		toogleData();
-
 		$selector.on('change', function(){
-			toogleData();
+			var selection = {},
+				result = null;
+			$.each( $selector, function() {
+				var $this = $(this);
+				selection[ $this.attr( 'name' ) ] = $this.val();
+			});
+
+			selectedSelectors = 0;
+			$.each( $selector, function(){
+				if( $(this).val().length > 0 ) {
+					selectedSelectors++;
+				}
+			});
+
+			if ( selectedSelectors === numVariations ){
+				for( var i in variations ) {
+					var variables = variations[i].variables;
+
+					for( var variable in variables ) {
+						var value = variables[variable];
+						if ( value.length > 0 ) {
+							if( selection[variable] === value ) {
+								result = i;
+							} else {
+								result = null;
+								break;
+							}
+						}
+					}
+					if( result ){
+						break;
+					}
+				}
+
+				var product_details = variations[ result ].dimensions + '<br>' + variations[ result ].weight;
+				$(placeholder).remove();
+				$hook.append('<div '+type_data_selector+'="'+data_selector+'">'+product_details+'</div>');
+
+			} else {
+				$(placeholder).remove();
+			}
 		});
 
 		// Cleanup data

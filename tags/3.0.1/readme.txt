@@ -12,12 +12,16 @@ Displays physical size and/or weight within meta details of product with variati
 
 == Description ==
 
-With this plugin you can display size and/or weight details of your variable products based defined attributes of WooCommerce.
+With this plugin you can display size and/or weight details of your variable products based on defined attributes of your WooCommerce products.
 
-It creates a new class called product_details inside product_meta, so you can easily custom on CSS.
+On default environments, this plugin works out of the box.
 
 = Features =
 * If your product is set to be variable and you have also set size and/or weight on each your predefined attributes, this plugin will show those details within other meta details.
+* Support nightly version WooCommerce 2.0.0 RC2.
+* Choose the place holder to show variations.
+* Choose data id/class of displayed data for CSS design.
+* Choose the selector that triggers show data event.
 
 = Feedback =
 * Will try to help on issues pointed on http://wordpress.org/support/plugin/woocommerce-variation-details-on-page-product and https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues

@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {    
+jQuery(document).ready(function($) {
     $('#'+eval(keys)).change(function () {
         var str = "";
         var weight = "";

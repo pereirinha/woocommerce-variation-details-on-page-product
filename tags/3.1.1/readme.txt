@@ -2,25 +2,30 @@
 Contributors: pereirinha
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
-Requires at least: 3.4.1 and WooCommerce 1.6.3
-Tested up to: 3.5.1
-Stable tag: 2.0.2
+Requires at least: 3.4.1 and WooCommerce 2.0
+Tested up to: 3.6
+Stable tag: 3.1.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
-Displays physical size and weight within meta details of product with variations.
+Displays physical size and/or weight within meta details of product with variations.
 
 == Description ==
 
-With this plugin you can display size and weight details of your variable products based defined attributes of WooCommerce.
+With this plugin you can display size and/or weight details of your variable products based on defined attributes of your WooCommerce products.
 
-It creates a new class called product_details inside product_meta, so you can easily custom on CSS.
+On default environments, this plugin works out of the box.
 
 = Features =
+* Your can use the shortcode [mp_wc_vdopp_variations] and hook there the visibility of your details.
 * If your product is set to be variable and you have also set size and/or weight on each your predefined attributes, this plugin will show those details within other meta details.
+* Support version WooCommerce 2.0
+* Choose the place holder to show variations.
+* Choose data id/class of displayed data for CSS design.
+* Choose the selector that triggers show data event.
 
 = Feedback =
-* Will try to help on issues pointed on  https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues
+* Will try to help on issues pointed on http://wordpress.org/support/plugin/woocommerce-variation-details-on-page-product and https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues
 * Fell free to suggest or contribute
 * Can find me on twitter @porreirinha
 
@@ -32,11 +37,11 @@ It creates a new class called product_details inside product_meta, so you can ea
 
 == Frequently Asked Questions ==
 
+= Is there any shortcode that I can use to hook the details? =
+Now there is, hurray. Just use the shortcode [mp_wc_vdopp_variations].
+
 = After upgrading to version 2.0 I'm not able to show my details =
 Due to internal changes, all of the previous definitions of attribute keys were lost. You should go to Variation settings' tab, within WooCommerce settings and define again which attributes you want to handle.
-
-= Despite all have been defined, I'm still not able to show my details =
-At this point, vdopp plugin doesn't support "Custom product attributes". You will need to define attributes under Products tab.
 
 == Screenshots ==
 
@@ -46,6 +51,38 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 1. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-4.jpg)
 
 == Changelog ==
+
+= 3.1.1 =
+* Fix sorting L x W x H
+
+= 3.1 =
+* Added shortcode feature. Using the shortcode [mp_wc_vdopp_variations] will replace any settings defined on the hook
+
+= 3.0.2 =
+* Fix a JavaScript bug that could limit the appearance of upper limits of variable attributes, as pointed in http://wordpress.org/support/topic/strange-behavior-2. Thank you Eran for reporting this issue.
+
+= 3.0.1 =
+* Fix a syntax error, unexpected T_PAAMAYIM_NEKUDOTAYIM
+
+= 3.0.0 =
+* Support Custom Attributes. Hurray.
+* Sucessfully tested on nightly WooCommerce 2.0.0 RC2.
+* You'll not be required to define which attributes to handle, as this plugin will track them for you. As a consequence, old data will be removed from your database.
+* You can choose which DOM object will be used to hook product attributes.
+* You can choose which DOM object will be used to trigger action. This is a cool feature as I've faced themes that redefine DOM elements.
+* You can choose id/class for theming.
+* These settings are defined out of the box so most users don't need to bother defining them.
+* Minified version of javascript.
+* Javascript improvement.
+
+= 2.0.3.2 =
+* Minor error fix when Debug Mode is on.
+
+= 2.0.3.1 =
+* Minor code cleanup.
+
+= 2.0.3 =
+* Support products that only have variations on weight.
 
 = 2.0.2 =
 * Fix a issue that would result on PHP Warning on implode() function in cases where products have any attributes.
@@ -68,21 +105,9 @@ At this point, vdopp plugin doesn't support "Custom product attributes". You wil
 
 This is a step-by-step that might help you on your setup.
 
-1. Go to Products > Attributes page and define a new Attribute, size for instance, with several Terms as you like — small, medium, large;
-1. Create a product on WooCommerce;
-1. Define it as a Variable Product on Product Data tab;
-1. On Attributes tab within Product Data tab add the Attribute created on step 1, in this case Size;
-1. On the new form, where asked for values, click on "Select all". It should map all terms — small, medium, large —, and check Visible on the product page and Used for variations;
-1. Save a draft, in order to Variations become available;
-1. On Variations tab you can Link all variations, or, add one by one your Variation Size, selecting one of default selections and fill the desired fields. Be sure to setup dimensions;
-1. Add information for the remaining selections;
-1. Publish your product;
-1. Find the product page on your shop;
-1. Select one off your sizes and notice that dimension information will be shown bellow your add to cart button;
-1. Select any other size and notice that dimension information will automatically will change.
-
-Quick step-by-step tutorial.
-[vimeo http://vimeo.com/51533811]
+1. Activate WooCommerce Variation Details on Page Product plugin and ta-da, that's it. It should work in most cases.
+1. Use a front-end development tool — like firebug — to track selectors on your DOM. Map them on WooCommerce > Settings > Variations according your needs.
+1. Alternatively, you can use the shortcode [mp_wc_vdopp_variations] to hook variation details.
 
 == Plugin Links ==
 * [Developers: reports bugs & issues](https://github.com/pereirinha/woocommerce-variation-details-on-page-product/issues)
