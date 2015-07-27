@@ -52,10 +52,10 @@ Due to internal changes, all of the previous definitions of attribute keys were 
 == Changelog ==
 
 = 3.2.1 =
-* Add support for muliple selectors
+* Add support for multiple selectors
 * Add debug mode
 * Add translations support
-* Add portuguese translation
+* Add Portuguese translation
 
 = 3.2 =
 * Support for radio button selectors
@@ -88,7 +88,7 @@ Due to internal changes, all of the previous definitions of attribute keys were 
 
 = 3.0.0 =
 * Support Custom Attributes. Hurray.
-* Sucessfully tested on nightly WooCommerce 2.0.0 RC2.
+* Successfully tested on nightly WooCommerce 2.0.0 RC2.
 * You'll not be required to define which attributes to handle, as this plugin will track them for you. As a consequence, old data will be removed from your database.
 * You can choose which DOM object will be used to hook product attributes.
 * You can choose which DOM object will be used to trigger action. This is a cool feature as I've faced themes that redefine DOM elements.
