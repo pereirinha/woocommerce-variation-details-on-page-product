@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Variation Details on Page Product
 Plugin URI: https://github.com/pereirinha/woocommerce-variation-details-on-page-product
 Description: Display physical size and weight of product within product meta details.
-Version: 3.3.0
+Version: 3.3.1
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
 */
@@ -17,7 +17,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		class MP_WC_Variation_Details_On_Page_Product {
 
 			// Definition of version
-			const VERSION = '3.3.0';
+			const VERSION = '3.3.1';
 			const VERSION_OPTION_NAME = 'mp_wc_vdopp_version';
 
 			public $plugin_prefix;
@@ -61,12 +61,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			}
 
 			public function create_vars() {
+				global $product;
 
-				if ( ! is_product() ) {
+				if ( ! is_product() || ! $product->is_type( 'variable' ) ) {
 					return;
 				}
-
-				global $product;
 
 				$att_data_hook     = get_option( 'mp_wc_vdopp_data_hook' ); // Hook data
 				$att_dom_sel       = get_option( 'mp_wc_vdopp_dom_selector' ); // DOM Selector

@@ -3,8 +3,8 @@ Contributors: pereirinha
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 4.3 and WooCommerce 2.4
-Tested up to: 4.3.1
-Stable tag: 3.3.0
+Tested up to: 4.4
+Stable tag: 3.3.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -45,11 +45,12 @@ Due to internal changes, all of the previous definitions of attribute keys were 
 == Screenshots ==
 
 1. The settings' page is where you define which attributes will display variations on page product. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-1.jpg)
-1. Bi-dimensional metric system details. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-2.jpg)
-1. Imperial system dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-3.jpg)
-1. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-4.jpg)
+1. Volumetric dimensions and weight. [Click for larger image view](http://www.wordpress.org/extend/plugins/woocommerce-variation-details-on-page-product/screenshot-2.jpg)
 
 == Changelog ==
+
+= 3.3.1 =
+* Make sure that front end only runs on variable products
 
 = 3.3.0 =
 * Move options within Product tab
