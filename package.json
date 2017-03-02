@@ -1,0 +1,22 @@
+{
+  "name": "woocommerce-variation-details-on-page-product",
+  "version": "3.3.2",
+  "description": "WooCommerce Variation Details on Page Product",
+  "main": "index.js",
+  "repository": "git@github.com:pereirinha/woocommerce-variation-details-on-page-product.git",
+  "author": "Marco Pereirinha",
+  "license": "GPL-v3",
+  "dependencies": {
+    "uglify-js": "^2.8.5"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.4",
+    "watch": "^1.0.2"
+  },
+  "scripts": {
+    "lint": "jshint js/wc-attributes-on-page.js",
+    "build:js": "uglifyjs js/wc-attributes-on-page.js > js/wc-attributes-on-page.min.js",
+    "build": "npm run lint && npm run build:js",
+    "build:watch": "watch 'npm run build' ."
+  }
+}
