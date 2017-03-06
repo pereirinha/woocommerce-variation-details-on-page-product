@@ -1,123 +1,279 @@
-if ( 'object' !== typeof console ) {
-	var console = { log: function(){} };
-}
-
-(function($){
+(function(){
 	'use strict';
 
-	var prop,
-		filterData = function filterDataF( obj ) {
-			return selectedVal[prop] === obj[prop];
-		},
-		toogleData = function toogleDataF( e ){
-			var attribute = e.target.name;
-
-			if ( 'variation_id' === attribute ) {
-				return;
-			}
-
-			if( -1 === $.inArray( attribute, attributes ) ) {
-				attributes.push( attribute );
-			}
-
-			$.each( $selector, function() {
-				var $this = $(this),
-					thisAttribute = 'attribute_' + $this.attr('id'),
-					value;
-
-				switch( selectorType ) {
-					case 'SELECT':
-						 value = $this.find( 'option:selected' ).val();
-						if( '' !== value ) {
-							selectedVal[thisAttribute] = value;
-						} else {
-							delete selectedVal[thisAttribute];
-						}
-						break;
-
-					case 'INPUT':
-						value = $this.closest( ':checked' ).val();
-						if( undefined !== value ) {
-							selectedVal[thisAttribute] = value;
-						}
-						break;
-				}
-			});
-
-			// Wait until all selection are made
-			if ( Object.keys(selectedVal).length !== numSelectors ) {
-				$(placeholder).remove();
-				return;
-			}
-
-			var result = variations;
-
-			for ( prop in selectedVal ) {
-				if ( selectedVal. hasOwnProperty( prop ) ) {
-					result = result.filter( filterData );
-				}
-			}
-
-			if ( result.length > 0 ) {
-				var product_details = beforeSize + result[0].dimensions + afterSize + '<br>' + beforeWeight + result[0].weight + afterWeight;
-				$(placeholder).remove();
-				$hook.append('<div '+type_data_selector+'="'+data_selector+'">'+product_details+'</div>');
-			}
-		};
-
-	var variationsRaw = window.mp_wc_variations;
-
-	if ( typeof variationsRaw !== 'undefined' ) {
-		var $selector     = $( variationsRaw.att_dom_sel ),
-			$hook         = $( variationsRaw.att_data_hook );
+	var Sorter = {
+		data   : window.mp_wc_variations,
+		els    : {},
+		values : {},
 
 		/*
 		 * Control existence of DOM objects
 		 */
-		if ( 0 === $selector.length ) {
-			console.log( '%cError VDOPP:', 'font-weight: bold; color: red', 'Sorry but I can\'t find the DOM object were actions are hooked.' );
-			return false;
+		checkConditions : function() {
+			var els = this.els;
+
+			if ( 0 === els.hook.length ) {
+				console.log( '%cError VDOPP:', 'font-weight: bold; color: red', 'Sorry, it seems that I can\'t find the DOM object were data will be hooked.' );
+				return false;
+			}
+
+			return true;
+		},
+
+		setVars : function() {
+			var data = this.data,
+				els = this.els,
+				values = this.values,
+				variations = this.data.variations.replace(/&quot;/g, '"'),
+				property;
+
+			values.placeholder = data.att_data_sel;
+			values.beforeSize = data.att_before_size;
+			values.beforeWeight = data.att_before_weight;
+			values.afterSize = data.att_after_size;
+			values.afterWeight = data.att_after_weight;
+			values.variations = JSON.parse( variations );
+
+			if ( '.' === values.placeholder.charAt(0) ) {
+				values.typeDataSelector = 'class';
+			} else if ( '#' === values.placeholder.charAt(0) ) {
+				values.typeDataSelector = 'id';
+			} else {
+				console.log( '%cError VDOPP:', 'font-weight: bold; color: red', 'Misconfiguration on Data Selector. Please, verify first char.' );
+				return false;
+			}
+
+			values.dataSelector = values.placeholder.substring(1);
+
+			els.selectors = {};
+			for ( property in values.variations[0] ) {
+				if ( values.variations[0].hasOwnProperty( property ) ) {
+					if ( -1 !== property.indexOf( 'attribute_' ) ) {
+						els.selectors[ property.replace( 'attribute_', '' ) ] = document.querySelectorAll( '[name="' + property + '"]' );
+					}
+				}
+			}
+
+			// Allow override the hook by the shortcode
+			if ( null !== document.querySelector( '.mp_wc_vdopp_variations' ) ) {
+				els.hook = document.querySelector( '.mp_wc_vdopp_variations' );
+			}
+
+			return true;
+		},
+
+		cleanup : function() {
+			var els = this.els,
+				variations = this.values.variations,
+				variationAttributes = [],
+				counterAttributes = {},
+				tempSelectors = {},
+				variation, attribute;
+
+			// Collect all attributes
+			for ( variation in els.selectors ) {
+				if ( ! els.selectors.hasOwnProperty( variation ) ) {
+					continue;
+				}
+				if ( '' === els.selectors[ variation ][0].id ) {
+					return false;
+				}
+
+				if ( -1 === variationAttributes.indexOf( 'attribute_' + variation ) ) {
+					variationAttributes[ variation ] = 'attribute_' + variation;
+				}
+			}
+
+			// Check what attributes are used for variations
+			for ( attribute in variationAttributes ) {
+				if ( ! variationAttributes.hasOwnProperty( attribute ) ) {
+					continue;
+				}
+				counterAttributes[ variationAttributes[ attribute ] ] = 0;
+
+				for ( variation in variations ) {
+					if ( ! variations.hasOwnProperty( variation ) ) {
+						continue;
+					}
+
+					if ( 0 !== variations[ variation ][ variationAttributes[ attribute ] ].length ) {
+						counterAttributes[ variationAttributes[ attribute ] ]++;
+					}
+				}
+			}
+
+			// Remove selectors not used for variations
+			for ( attribute in els.selectors ) {
+				if ( ! els.selectors.hasOwnProperty( attribute ) ) {
+					continue;
+				}
+				if ( 0 !== counterAttributes[ 'attribute_' + attribute ] ) {
+					tempSelectors[ attribute ] = els.selectors[ attribute ];
+				}
+			}
+
+			els.selectors = tempSelectors;
+
+			els.selectorType = {};
+
+			// Check if valid/supported selector
+			for ( variation in els.selectors ) {
+				if ( ! els.selectors.hasOwnProperty( variation ) ) {
+					continue;
+				}
+
+				els.selectorType[ variation ] = els.selectors[ variation ][0].tagName;
+
+				if ( -1 === ['SELECT', 'INPUT'].indexOf( els.selectorType[ variation ] ) ) {
+					console.log( '%cError VDOPP:', 'font-weight: bold; color: red', 'This plugin is intended to work only with dropdown lists and radio buttons as variations selectors.' );
+					return false;
+				}
+
+			}
+
+			delete this.data;
+
+			return true;
+		},
+
+		filter : function( index ) {
+			if ( this.variations[ index ][ 'attribute_' + this.variation ][0] !== this.value && this.variations[ index ][ 'attribute_' + this.variation ][1] !== this.value ) {
+				delete this.dirtyVariations[ index ];
+			}
+		},
+
+		toogleData : function() {
+			var els = this.els,
+				selectors = this.els.selectors,
+				values = this.values,
+				variations = this.values.variations,
+				selection = {},
+				filter = {},
+				selectedVariation = [],
+				dirtySelectedVariation, variation, index, value, string;
+
+			for ( variation in selectors ) {
+				if ( ! selectors.hasOwnProperty( variation ) ) {
+					continue;
+				}
+
+				for ( index in selectors[ variation ] ) {
+					if ( ! selectors[ variation ].hasOwnProperty( index ) ) {
+						continue;
+					}
+
+					switch ( els.selectorType[ variation ] ) {
+					case 'SELECT' :
+						value = selectors[ variation ][ index ].value;
+						if ( '' === value ) {
+							delete selection[ selectors[ variation ][ index ].id ];
+						} else {
+							selection[ selectors[ variation ][ index ].id ] = value;
+						}
+						break;
+
+					case 'INPUT' :
+						if ( selectors[variation][index].checked ) {
+							selection[ selectors[ variation ][ index ].id ] = selectors[variation][index].value;
+						}
+						break;
+
+					default :
+						break;
+
+					}
+				}
+			}
+
+			if ( Object.keys( selection ).length !== Object.keys( els.selectorType ).length ) {
+				els.hook.innerHTML = '';
+				return;
+			}
+
+			dirtySelectedVariation = JSON.parse( JSON.stringify( variations ) );
+
+			for ( variation in selection ) {
+				if ( ! selection.hasOwnProperty(variation) ) {
+					continue;
+				}
+
+				filter = {
+					value           : selection[ variation ],
+					variation       : variation,
+					variations      : variations,
+					dirtyVariations : dirtySelectedVariation
+				};
+
+				Object.keys( variations ).forEach( this.filter.bind( filter ) );
+			}
+
+			for ( index in dirtySelectedVariation ) {
+				if ( ! dirtySelectedVariation.hasOwnProperty( index ) ) {
+					continue;
+				}
+
+				selectedVariation.push( dirtySelectedVariation[ index ] );
+			}
+
+			selectedVariation = selectedVariation.shift();
+
+			string = values.beforeSize + selectedVariation.dimensions + values.afterSize + '<br>' + values.beforeWeight + selectedVariation.weight + values.afterWeight;
+
+			els.hook.innerHTML = '<div ' + values.typeDataSelector + '="' + values.dataSelector + '">' + string + '</div>';
+		},
+
+		addListner : function() {
+			var selectors = this.els.selectors,
+				variation, index;
+
+			for ( variation in selectors ) {
+				if ( ! selectors.hasOwnProperty( variation ) ) {
+					continue;
+				}
+
+				for ( index in selectors[ variation ] ) {
+					if ( ! selectors[ variation ].hasOwnProperty( index ) ) {
+						continue;
+					}
+
+					selectors[ variation ][ index ].addEventListener( 'change', this.toogleData.bind( this ) );
+					selectors[ variation ][ index ].addEventListener( 'select', this.toogleData.bind( this ) );
+				}
+			}
+		},
+
+		init : function() {
+			var data = this.data,
+				els = this.els,
+				controlPass;
+
+			if ( 'undefined' === typeof data ) {
+				return;
+			}
+
+			els.selectors = [].slice.call( document.querySelectorAll( data.att_dom_sel ) );
+			els.hook = document.querySelector( data.att_data_hook );
+
+			controlPass = this.checkConditions();
+			if ( false === controlPass ) {
+				return;
+			}
+
+			controlPass = this.setVars();
+			if ( false === controlPass ) {
+				return;
+			}
+
+			controlPass = this.cleanup();
+			if ( false === controlPass ) {
+				return;
+			}
+
+			this.addListner();
+			this.toogleData();
 		}
-		if ( 0 === $hook.length ) {
-			console.log( '%cError VDOPP:', 'font-weight: bold; color: red', 'Sorry, it seems that I can\'t find the DOM object were data will be hooked.' );
-			return false;
-		}
+	};
 
-		var selectorType  = $selector[0].tagName;
+	Sorter.init();
 
-		if ( -1 === [ 'SELECT', 'INPUT' ].indexOf( selectorType ) ) {
-			console.log( '%cError VDOPP:', 'font-weight: bold; color: red', 'This plugin is intended to work only with dropdown lists and radio buttons as variations selectors.' );
-			return false;
-		}
-
-		var variations   = variationsRaw.variations.replace(/&quot;/g, '"'),
-			placeholder  = variationsRaw.att_data_sel,
-			beforeSize   = variationsRaw.att_before_size,
-			beforeWeight = variationsRaw.att_before_weight,
-			afterSize    = variationsRaw.att_after_size,
-			afterWeight  = variationsRaw.att_after_weight,
-			numSelectors = +variationsRaw.num_variations, // Cast integer
-			selectedVal  = {},
-			attributes   = [],
-			type_data_selector;
-
-		variations = jQuery.parseJSON( variations );
-
-		if ( '.' === placeholder.charAt(0) ) {
-			type_data_selector = 'class';
-		} else if ( '#' === placeholder.charAt(0) ) {
-			type_data_selector = 'id';
-		} else {
-			console.log( '%cError VDOPP:', 'font-weight: bold; color: red', 'Misconfiguration on Data Selector. Please, verify first char.' );
-			return false;
-		}
-
-		var data_selector = placeholder.substring(1);
-
-		if( $( '.mp_wc_vdopp_variations' ).length > 0 ) {
-			$hook = $( '.mp_wc_vdopp_variations' );
-		}
-
-		$(document).on( 'change select', $selector, toogleData );
-	}
-}(jQuery));
+})();
