@@ -68,7 +68,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				}
 
 				$att_data_hook     = get_option( 'mp_wc_vdopp_data_hook' ); // Hook data
-				$att_dom_sel       = get_option( 'mp_wc_vdopp_dom_selector' ); // DOM Selector
 				$att_data_sel      = get_option( 'mp_wc_vdopp_data_selector' ); // Data Selector
 				$att_before_size   = apply_filters( 'mp_wc_vdopp_before_size', rtrim( get_option( 'mp_wc_vdopp_before_size' ) ) ) . ' ';
 				$att_before_weight = apply_filters( 'mp_wc_vdopp_before_weight', rtrim( get_option( 'mp_wc_vdopp_before_weight' ) ) ) . ' ';
@@ -100,13 +99,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				$params = array(
 					'variations'        => $this->variations,
 					'att_data_hook'     => $att_data_hook,
-					'att_dom_sel'       => $att_dom_sel,
 					'att_data_sel'      => $att_data_sel,
 					'att_before_size'   => $att_before_size,
 					'att_before_weight' => $att_before_weight,
 					'att_after_size'    => $att_after_size,
 					'att_after_weight'  => $att_after_weight,
-					'num_variations'    => count( $variations ),
 				);
 
 				// enqueue the script
@@ -157,6 +154,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			private function upgrade( $installed_version ) {
 				if ( get_option( $this->old_option_name ) ) {
 					delete_option( $this->old_option_name );
+				}
+				if ( get_option( 'mp_wc_vdopp_dom_selector' ) ) {
+					delete_option( 'mp_wc_vdopp_dom_selector' );
 				}
 			}
 		}
