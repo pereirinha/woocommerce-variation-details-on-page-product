@@ -82,7 +82,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						$variations = $product_variatons->get_variation_attributes();
 
 						foreach ( $variations as $key => $variation ) {
-							$this->variations[ $i ][ $key ] = $variation;
+							$this->variations[ $index ][ $key ] = array(
+								$variation,
+								sanitize_title( $variation )
+							);
+
+							$this->variations[ $index ][ $key ] = array_filter( $this->variations[ $index ][ $key ] );
 						}
 						$weight = $product_variatons->get_weight();
 						if ( $weight ) {
