@@ -11,12 +11,16 @@
   },
   "devDependencies": {
     "jshint": "^2.9.4",
-    "watch": "^1.0.2"
+    "npm-watch": "^0.1.8"
+  },
+  "watch" : {
+    "compile": "js/wc-attributes-on-page.js"
   },
   "scripts": {
     "lint": "jshint js/wc-attributes-on-page.js",
     "build:js": "uglifyjs js/wc-attributes-on-page.js > js/wc-attributes-on-page.min.js",
     "build": "npm run lint && npm run build:js",
-    "build:watch": "watch 'npm run build' ."
+    "compile" : "npm run build",
+    "watch" : "npm-watch"
   }
 }
