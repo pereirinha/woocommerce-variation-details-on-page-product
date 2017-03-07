@@ -59,6 +59,11 @@
 				els.hook = document.querySelector( '.mp_wc_vdopp_variations' );
 			}
 
+			// Create placeholder and append it to hook
+			els.placeholder = document.createElement('DIV');
+			els.placeholder.setAttribute( values.typeDataSelector, values.dataSelector );
+			els.hook.appendChild( els.placeholder );
+
 			return true;
 		},
 
@@ -150,7 +155,8 @@
 				selection = {},
 				filter = {},
 				selectedVariation = [],
-				dirtySelectedVariation, variation, index, value, string;
+				string = [],
+				dirtySelectedVariation, variation, index, value;
 
 			for ( variation in selectors ) {
 				if ( ! selectors.hasOwnProperty( variation ) ) {
@@ -186,7 +192,7 @@
 			}
 
 			if ( Object.keys( selection ).length !== Object.keys( els.selectorType ).length ) {
-				els.hook.innerHTML = '';
+				els.placeholder.innerHTML = '';
 				return;
 			}
 
@@ -217,9 +223,15 @@
 
 			selectedVariation = selectedVariation.shift();
 
-			string = values.beforeSize + selectedVariation.dimensions + values.afterSize + '<br>' + values.beforeWeight + selectedVariation.weight + values.afterWeight;
+			if ( 0 < selectedVariation.dimensions.length ) {
+				string.push( values.beforeSize + selectedVariation.dimensions + values.afterSize );
+			}
 
-			els.hook.innerHTML = '<div ' + values.typeDataSelector + '="' + values.dataSelector + '">' + string + '</div>';
+			if ( 0 < selectedVariation.weight.length ) {
+				string.push( values.beforeWeight + selectedVariation.weight + values.afterWeight );
+			}
+
+			els.placeholder.innerHTML = '<div ' + values.typeDataSelector + '="' + values.dataSelector + '">' + string.join( '<br>' ) + '</div>';
 		},
 
 		addListner : function() {
