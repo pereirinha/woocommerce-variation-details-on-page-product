@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Variation Details on Page Product
 Plugin URI: https://github.com/pereirinha/woocommerce-variation-details-on-page-product
 Description: Display physical size and weight of product within product meta details.
-Version: 3.3.2
+Version: 3.4.0
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
 */
@@ -17,7 +17,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		class MP_WC_Variation_Details_On_Page_Product {
 
 			// Definition of version
-			const VERSION             = '3.3.2';
+			const VERSION             = '3.4.0';
 			const VERSION_OPTION_NAME = 'mp_wc_vdopp_version';
 
 			public $plugin_prefix;
@@ -73,13 +73,29 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				$att_before_weight = apply_filters( 'mp_wc_vdopp_before_weight', rtrim( get_option( 'mp_wc_vdopp_before_weight' ) ) ) . ' ';
 				$att_after_size    = apply_filters( 'mp_wc_vdopp_after_size'   , ' ' . ltrim( get_option( 'mp_wc_vdopp_after_size' ) ) );
 				$att_after_weight  = apply_filters( 'mp_wc_vdopp_after_weight' , ' ' . ltrim( get_option( 'mp_wc_vdopp_after_weight' ) ) );
-				$children          = $product->get_children( true );
+
+				$children = null;
+
+				// New method as of WC 2.7.0
+				if ( method_exists( $product, 'get_visible_children' ) ) {
+					$children = $product->get_visible_children( true );
+				}
+
+				if ( null === $children) {
+					$children = $product->get_children( true );
+				}
 
 				$index = 0;
 				foreach ( $children as $value ) {
 					$product_variatons = new WC_Product_Variation( $value );
 					if ( $product_variatons->exists() && $product_variatons->variation_is_visible() ) {
 						$variations = $product_variatons->get_variation_attributes();
+						$dimensions = $product_variatons->get_dimensions( false );
+
+						// New method as of WC 2.7.0
+						if ( is_array( $dimensions ) ) {
+							$dimensions = wc_format_dimensions( $dimensions );
+						}
 
 						foreach ( $variations as $key => $variation ) {
 							$this->variations[ $index ][ $key ] = array(
@@ -94,7 +110,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 							$weight .= get_option( 'woocommerce_weight_unit' );
 						}
 						$this->variations[ $index ]['weight']     = $weight ;
-						$this->variations[ $index ]['dimensions'] = str_replace( ' ', '', $product_variatons->get_dimensions() );
+						$this->variations[ $index ]['dimensions'] = str_replace( ' ', '', $dimensions );
 						$index++;
 					}
 				}
