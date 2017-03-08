@@ -51,7 +51,7 @@ A. Due to internal changes, all of the previous definitions of attribute keys we
 
 ## Upgrade Notice
 
-* Information prior to `3.3.2` about DOM selector will be removed from database. The plugin will find them for you;
+* Information prior to `3.4.0` about DOM selector will be removed from database. The plugin will find them for you;
 
 ## Changelog
 
