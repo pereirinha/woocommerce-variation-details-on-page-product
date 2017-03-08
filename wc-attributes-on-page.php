@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Variation Details on Page Product
 Plugin URI: https://github.com/pereirinha/woocommerce-variation-details-on-page-product
 Description: Display physical size and weight of product within product meta details.
-Version: 3.3.1
+Version: 3.4.0
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
 */
@@ -17,7 +17,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		class MP_WC_Variation_Details_On_Page_Product {
 
 			// Definition of version
-			const VERSION = '3.3.1';
+			const VERSION             = '3.4.0';
 			const VERSION_OPTION_NAME = 'mp_wc_vdopp_version';
 
 			public $plugin_prefix;
@@ -28,7 +28,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			public function __construct() {
 				$this->plugin_prefix   = 'mp_wc_vdopp';
 				$this->old_option_name = 'mp_wc_vdopp_keys';
-				$this->debug = true;
+				$this->debug           = WP_DEBUG;
 			}
 
 			public function load() {
@@ -68,30 +68,50 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				}
 
 				$att_data_hook     = get_option( 'mp_wc_vdopp_data_hook' ); // Hook data
-				$att_dom_sel       = get_option( 'mp_wc_vdopp_dom_selector' ); // DOM Selector
 				$att_data_sel      = get_option( 'mp_wc_vdopp_data_selector' ); // Data Selector
-				$att_before_size   = apply_filters( 'mp_wc_vdopp_before_size', rtrim( get_option( 'mp_wc_vdopp_before_size' ) ) ) . ' ';
+				$att_before_size   = apply_filters( 'mp_wc_vdopp_before_size'  , rtrim( get_option( 'mp_wc_vdopp_before_size' ) ) ) . ' ';
 				$att_before_weight = apply_filters( 'mp_wc_vdopp_before_weight', rtrim( get_option( 'mp_wc_vdopp_before_weight' ) ) ) . ' ';
-				$att_after_size    = apply_filters( 'mp_wc_vdopp_after_size', ' ' . ltrim( get_option( 'mp_wc_vdopp_after_size' ) ) );
-				$att_after_weight  = apply_filters( 'mp_wc_vdopp_after_weight', ' ' . ltrim( get_option( 'mp_wc_vdopp_after_weight' ) ) );
-				$children          = $product->get_children( $args = '', $output = OBJECT );
+				$att_after_size    = apply_filters( 'mp_wc_vdopp_after_size'   , ' ' . ltrim( get_option( 'mp_wc_vdopp_after_size' ) ) );
+				$att_after_weight  = apply_filters( 'mp_wc_vdopp_after_weight' , ' ' . ltrim( get_option( 'mp_wc_vdopp_after_weight' ) ) );
 
-				$i = 0;
+				$children = null;
+
+				// New method as of WC 2.7.0
+				if ( method_exists( $product, 'get_visible_children' ) ) {
+					$children = $product->get_visible_children( true );
+				}
+
+				if ( null === $children) {
+					$children = $product->get_children( true );
+				}
+
+				$index = 0;
 				foreach ( $children as $value ) {
 					$product_variatons = new WC_Product_Variation( $value );
 					if ( $product_variatons->exists() && $product_variatons->variation_is_visible() ) {
 						$variations = $product_variatons->get_variation_attributes();
+						$dimensions = $product_variatons->get_dimensions( false );
+
+						// New method as of WC 2.7.0
+						if ( is_array( $dimensions ) ) {
+							$dimensions = wc_format_dimensions( $dimensions );
+						}
 
 						foreach ( $variations as $key => $variation ) {
-							$this->variations[ $i ][ $key ] = $variation;
+							$this->variations[ $index ][ $key ] = array(
+								$variation,
+								sanitize_title( $variation )
+							);
+
+							$this->variations[ $index ][ $key ] = array_filter( $this->variations[ $index ][ $key ] );
 						}
 						$weight = $product_variatons->get_weight();
 						if ( $weight ) {
 							$weight .= get_option( 'woocommerce_weight_unit' );
 						}
-						$this->variations[ $i ]['weight']     = $weight ;
-						$this->variations[ $i ]['dimensions'] = str_replace( ' ', '', $product_variatons->get_dimensions() );
-						$i++;
+						$this->variations[ $index ]['weight']     = $weight ;
+						$this->variations[ $index ]['dimensions'] = str_replace( ' ', '', $dimensions );
+						$index++;
 					}
 				}
 
@@ -100,13 +120,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				$params = array(
 					'variations'        => $this->variations,
 					'att_data_hook'     => $att_data_hook,
-					'att_dom_sel'       => $att_dom_sel,
 					'att_data_sel'      => $att_data_sel,
 					'att_before_size'   => $att_before_size,
 					'att_before_weight' => $att_before_weight,
 					'att_after_size'    => $att_after_size,
 					'att_after_weight'  => $att_after_weight,
-					'num_variations'    => count( $variations ),
 				);
 
 				// enqueue the script
@@ -115,18 +133,18 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			}
 
 			public function register_scripts() {
-				$extra = 'min.';
+				$min = 'min.';
 
 				if ( $this->debug ) {
-					$extra = '';
+					$min = '';
 				}
 
-				$js_url  = plugins_url( 'js/wc-attributes-on-page.' . $extra . 'js', __FILE__ );
-				$js_file = WP_PLUGIN_DIR . '/woocommerce-variation-details-on-page-product/js/wc-attributes-on-page.' . $extra . 'js';
+				$js_url  = plugins_url( 'js/wc-attributes-on-page.' . $min . 'js', __FILE__ );
+				$js_file = WP_PLUGIN_DIR . '/woocommerce-variation-details-on-page-product/js/wc-attributes-on-page.' . $min . 'js';
 
 				if ( file_exists( $js_file ) ) {
 					// register your script location, dependencies and version
-					wp_register_script( 'mp_wc_variation_details', $js_url, array( 'jquery' ) );
+					wp_register_script( 'mp_wc_variation_details', $js_url, array() );
 				}
 			}
 
@@ -157,6 +175,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			private function upgrade( $installed_version ) {
 				if ( get_option( $this->old_option_name ) ) {
 					delete_option( $this->old_option_name );
+				}
+				if ( get_option( 'mp_wc_vdopp_dom_selector' ) ) {
+					delete_option( 'mp_wc_vdopp_dom_selector' );
 				}
 			}
 		}
