@@ -40,10 +40,10 @@ WooCommerce added these details to the additional details section of the product
 
 ## Frequently Asked Questions
 
-Q. Is there any shortcode that I can use to hook the details?
+Q. Is there any shortcode that I can use to hook the details?\
 A. Now there is, hurray. Just use the shortcode `[mp_wc_vdopp_variations]`.
 
-Q. After upgrading to version 2.0 I'm not able to show my details
+Q. After upgrading to version 2.0 I'm not able to show my details\
 A. Due to internal changes, all of the previous definitions of attribute keys were lost. You should go to Variation settings' tab, within WooCommerce settings and define again which attributes you want to handle.
 
 ## Screenshots
