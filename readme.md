@@ -1,7 +1,7 @@
 # WooCommerce Variation Details on Page Product
 
 Contributors: pereirinha\
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S\
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S \
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes\
 Requires at least: 4.3 and WooCommerce 2.4\
 Tested up to: 5.4.0\
