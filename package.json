@@ -13,14 +13,14 @@
     "jshint": "^2.9.4",
     "npm-watch": "^0.1.8"
   },
-  "watch" : {
+  "watch": {
     "compile": "js/wc-attributes-on-page.js"
   },
   "scripts": {
     "lint": "jshint js/wc-attributes-on-page.js",
     "build:js": "uglifyjs js/wc-attributes-on-page.js > js/wc-attributes-on-page.min.js",
     "build": "npm run lint && npm run build:js",
-    "compile" : "npm run build",
-    "watch" : "npm-watch"
+    "compile": "npm run build",
+    "watch": "npm-watch"
   }
 }
