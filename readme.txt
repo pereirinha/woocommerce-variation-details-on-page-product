@@ -1,12 +1,12 @@
 # WooCommerce Variation Details on Page Product
 
-Contributors: pereirinha  
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S  
-Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes  
-Requires at least: 4.3 and WooCommerce 2.4  
-Tested up to: 4.7.3  
-Stable tag: 3.4.0  
-License: GPLv3 or later  
+Contributors: pereirinha
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S
+Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
+Requires at least: 4.3 and WooCommerce 2.4
+Tested up to: 5.4.0
+Stable tag: 3.4.0
+License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
 Displays physical size and/or weight within meta details of product with variations.
@@ -16,6 +16,8 @@ Displays physical size and/or weight within meta details of product with variati
 With this plugin you can display size and/or weight details of your variable products based on defined attributes of your WooCommerce products.
 
 On default environments, this plugin works out of the box.
+
+WooCommerce added these details to the additional details section of the product page. This plugin still offers a bit more flexibility. For instance, it allows you to control where to render these details or show the dimensions if the attribute you're changing is dimension related, without the need of setting all the variables — like colour.
 
 ## Features
 * Your can use the shortcode `[mp_wc_vdopp_variations]` and hook there the visibility of your details.
@@ -38,10 +40,10 @@ On default environments, this plugin works out of the box.
 
 ## Frequently Asked Questions
 
-Q. Is there any shortcode that I can use to hook the details?  
+Q. Is there any shortcode that I can use to hook the details?
 A. Now there is, hurray. Just use the shortcode `[mp_wc_vdopp_variations]`.
 
-Q. After upgrading to version 2.0 I'm not able to show my details  
+Q. After upgrading to version 2.0 I'm not able to show my details
 A. Due to internal changes, all of the previous definitions of attribute keys were lost. You should go to Variation settings' tab, within WooCommerce settings and define again which attributes you want to handle.
 
 ## Screenshots
