@@ -59,7 +59,7 @@ A. Due to internal changes, all of the previous definitions of attribute keys we
 
 ### 3.4.0
 
-+ Tested with WooCommerce 2.7.0 RC1;
+* Tested with WooCommerce 2.7.0 RC1;
 * You don't need to set DOM selector anymore. The plugin will find it for you;
 * Hook logic only to selectors that impact with variations;
 * JavaScript refactor to ditch jQuery dependency;
