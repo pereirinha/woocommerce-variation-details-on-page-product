@@ -7,6 +7,8 @@ Description: Display physical size and weight of product within product meta det
 Version: 3.4.0
 Author: Marco Pereirinha
 Author URI: http://www.linkedin.com/in/marcopereirinha
+WC requires at least: 2.4
+WC tested up to: 4.0.0
 */
 
 // Check if WooCommerce is active
