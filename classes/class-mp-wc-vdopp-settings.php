@@ -10,22 +10,14 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 	class MP_WC_Variation_Details_On_Page_Product_Settings extends WC_Settings_API {
 
 		public $plugin_id;
-		public $section_name;
 
 		public function __construct() {
-			global $mp_wc_vdopp;
-			$this->plugin_id    = $mp_wc_vdopp->plugin_prefix;
-			$this->section_name = &$this->plugin_id;
+			$this->plugin_id = 'mp_wc_vdopp';
 			add_action( 'admin_init', array( $this, 'verify_first_use' ) );
 		}
 
 		// Load the class
 		public function load() {
-			add_action( 'admin_init', array( $this, 'load_hooks' ) );
-		}
-
-		// Call for actions
-		public function load_hooks() {
 			add_filter( 'woocommerce_get_sections_products', array( &$this, 'add_settings_section' ) );
 			add_action( 'woocommerce_get_settings_products', array( &$this, 'create_settings_page' ), 10, 2 );
 		}
