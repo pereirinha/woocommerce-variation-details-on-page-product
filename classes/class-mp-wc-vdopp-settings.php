@@ -10,22 +10,14 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 	class MP_WC_Variation_Details_On_Page_Product_Settings extends WC_Settings_API {
 
 		public $plugin_id;
-		public $section_name;
 
 		public function __construct() {
-			global $mp_wc_vdopp;
-			$this->plugin_id    = $mp_wc_vdopp->plugin_prefix;
-			$this->section_name = &$this->plugin_id;
+			$this->plugin_id = 'mp_wc_vdopp';
 			add_action( 'admin_init', array( $this, 'verify_first_use' ) );
 		}
 
 		// Load the class
 		public function load() {
-			add_action( 'admin_init', array( $this, 'load_hooks' ) );
-		}
-
-		// Call for actions
-		public function load_hooks() {
 			add_filter( 'woocommerce_get_sections_products', array( &$this, 'add_settings_section' ) );
 			add_action( 'woocommerce_get_settings_products', array( &$this, 'create_settings_page' ), 10, 2 );
 		}
@@ -42,20 +34,20 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 
 		// Create Variations section
 		public function add_settings_section( $section ) {
-			$section[ $this->section_name ] = __( 'Variations', 'mp_wc_vdopp' );
+			$section[ $this->plugin_id ] = __( 'Variations', 'mp_wc_vdopp' );
 			return $section;
 		}
 
 		// Create settings page
 		public function create_settings_page( $settings, $current_section ) {
 
-			if ( $current_section === $this->section_name ) {
+			if ( $current_section === $this->plugin_id ) {
 
-				$settings = array();
+				$settings   = array();
 				$settings[] = array(
-					'name'     => __( 'WooCommerce Variation Details on Page Product', 'mp_wc_vdopp' ),
-					'type'     => 'title',
-					'desc'     => __( 'This plugin has predefined settings outside the box. If you feel comfortable, you are welcome to update data to meet your requirements.', 'mp_wc_vdopp' ) . '<p>' . __( '<strong>Important:</strong> Use a . to identify a class and a # to identify an id.', 'mp_wc_vdopp' ) . '</p>' ,
+					'name' => __( 'WooCommerce Variation Details on Page Product', 'mp_wc_vdopp' ),
+					'type' => 'title',
+					'desc' => __( 'This plugin has predefined settings outside the box. If you feel comfortable, you are welcome to update data to meet your requirements.', 'mp_wc_vdopp' ) . '<p>' . __( '<strong>Important:</strong> Use a . to identify a class and a # to identify an id.', 'mp_wc_vdopp' ) . '</p>',
 				);
 
 				$settings[] = array(
@@ -76,41 +68,41 @@ if ( ! class_exists( 'MP_WC_Variation_Details_On_Page_Product_Settings' ) ) {
 				);
 
 				$settings[] = array(
-					'name'     => __( 'Before size', 'mp_wc_vdopp' ),
-					'id'       => $this->plugin_id . '_before_size',
-					'type'     => 'text',
-					'desc'     => __( 'Set text before size.', 'mp_wc_vdopp' ),
+					'name' => __( 'Before size', 'mp_wc_vdopp' ),
+					'id'   => $this->plugin_id . '_before_size',
+					'type' => 'text',
+					'desc' => __( 'Set text before size.', 'mp_wc_vdopp' ),
 				);
 
 				$settings[] = array(
-					'name'     => __( 'Before weight', 'mp_wc_vdopp' ),
-					'id'       => $this->plugin_id . '_before_weight',
-					'type'     => 'text',
-					'desc'     => __( 'Set text before weight.', 'mp_wc_vdopp' ),
+					'name' => __( 'Before weight', 'mp_wc_vdopp' ),
+					'id'   => $this->plugin_id . '_before_weight',
+					'type' => 'text',
+					'desc' => __( 'Set text before weight.', 'mp_wc_vdopp' ),
 				);
 
 				$settings[] = array(
-					'name'     => __( 'After size', 'mp_wc_vdopp' ),
-					'id'       => $this->plugin_id . '_after_size',
-					'type'     => 'text',
-					'desc'     => __( 'Set text after size.', 'mp_wc_vdopp' ),
+					'name' => __( 'After size', 'mp_wc_vdopp' ),
+					'id'   => $this->plugin_id . '_after_size',
+					'type' => 'text',
+					'desc' => __( 'Set text after size.', 'mp_wc_vdopp' ),
 				);
 
 				$settings[] = array(
-					'name'     => __( 'After weight', 'mp_wc_vdopp' ),
-					'id'       => $this->plugin_id . '_after_weight',
-					'type'     => 'text',
-					'desc'     => __( 'Set text after weight.', 'mp_wc_vdopp' ),
+					'name' => __( 'After weight', 'mp_wc_vdopp' ),
+					'id'   => $this->plugin_id . '_after_weight',
+					'type' => 'text',
+					'desc' => __( 'Set text after weight.', 'mp_wc_vdopp' ),
 				);
 
 				$settings[] = array(
-					'type'     => 'sectionend'
+					'type' => 'sectionend',
 				);
 
 				$settings[] = array(
-					'name'     => __( 'Donation', 'mp_wc_vdopp' ),
-					'desc'     => __( 'Please, support further development of this plugin by buying the guy an extra dose of caffeine.', 'mp_wc_vdopp' ) . '<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></a></p>',
-					'type'     => 'title'
+					'name' => __( 'Donation', 'mp_wc_vdopp' ),
+					'desc' => __( 'Please, support further development of this plugin by buying the guy an extra dose of caffeine.', 'mp_wc_vdopp' ) . '<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S626RA3BPS74S" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></a></p>',
+					'type' => 'title',
 				);
 			}
 

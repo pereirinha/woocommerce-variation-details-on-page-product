@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: variation details, variation, dimensions, size, weight, woocommerce, woothemes
 Requires at least: 4.3 and WooCommerce 2.4
 Tested up to: 5.4.0
-Stable tag: 3.4.0
+Stable tag: 3.4.1
 License: GPLv3 or later
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -56,6 +56,10 @@ A. Due to internal changes, all of the previous definitions of attribute keys we
 * Information prior to `3.4.0` about DOM selector will be removed from database. The plugin will find them for you;
 
 ## Changelog
+
+### 3.4.1
+
+* Update filters timing to allow saving the plugin settings;
 
 ### 3.4.0
 
